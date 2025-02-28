@@ -125,38 +125,10 @@
 				<button type="submit">Send</button>
 			 </form>
 			 
-			 <div id="confirmation-message" style="display: none; color: green;">
+			<div id="confirmation-message" style="display: none; color: green;">
 				Thank you! Your message has been sent.
-			 </div>
-			 
-			 <script>
-				document.getElementById('contact-form').addEventListener('submit', function(event) {
-				  event.preventDefault();
-				  
-				  const formData = {
-					 name: document.getElementById('name').value,
-					 email: document.getElementById('email').value,
-					 message: document.getElementById('message').value,
-				  };
-				  
-				  // Replace with your Google Apps Script URL
-				  const scriptUrl = 'https://script.google.com/macros/s/AKfycbyAjGx_uyQPxj90zlUKsxvrdBE9wRNegCpi0L2osiFChB_ZyUT_jOztdcOCD5Gz2vH7aA/exec';
-				  
-				  fetch(scriptUrl, {
-					 method: 'POST',
-					 body: JSON.stringify(formData),
-				  })
-				  .then(response => response.json())
-				  .then(data => {
-					 // Show custom confirmation message
-					 document.getElementById('confirmation-message').style.display = 'block';
-					 document.getElementById('contact-form').reset(); // Clear the form
-				  })
-				  .catch(error => {
-					 alert('Failed to send message. Please try again.');
-				  });
-				});
-			 </script>
+			</div>
+			<script src="js/script.js"></script>
 		</section>
 	</main>
 </body>

@@ -51,3 +51,29 @@ progressBar.addEventListener('input', () => {
 	const seekTime = (progressBar.value / 100) * audio.duration;
 	audio.currentTime = seekTime;
 });
+
+// Contact Form Submission
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+	event.preventDefault();
+	
+	const formData = {
+	  name: document.getElementById('name').value,
+	  email: document.getElementById('email').value,
+	  message: document.getElementById('message').value,
+	};
+	
+	const scriptUrl = 'https://script.google.com/macros/s/AKfycbwZzaqd_WxUXWMo-74zDQdpP84_x2fw9YIeqisxhmAcNW-15pUzcGBWVWPfvw6t3NJ2xQ/exec';
+	
+	fetch(scriptUrl, {
+	  method: 'POST',
+	  body: JSON.stringify(formData),
+	})
+	.then(response => response.json())
+	.then(data => {
+	  document.getElementById('confirmation-message').style.display = 'block';
+	  document.getElementById('contact-form').reset();
+	})
+	.catch(error => {
+	  alert('Failed to send message. Please try again.');
+	});
+ });
