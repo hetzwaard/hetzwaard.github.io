@@ -195,8 +195,7 @@ nav .right a span {
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 200px;;
-	margin: 50px 0;
-	margin-bottom: 100px;
+	margin: 150px 0 250px 0;
 	gap: 40px;
 }
 
@@ -260,28 +259,102 @@ nav .right a span {
 	padding: 20px;
 	border: 1px solid #ddd;
 	border-radius: 5px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Contact Section */
 .contact-section {
+	flex-direction: column;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0 200px;
-	margin: 50px 0;
-	margin-bottom: 100px;
+	padding: 0 200px;;
+	margin: 150px 0 250px 0;
 	gap: 40px;
 }
 
-.contact-section .text {
-	text-align: center;
-	flex: 5;
-}
-
 .contact-section .text h2 {
+	flex: 5;
 	font-weight: 600;
 	font-size: 45px;
+	text-align: center;
 	margin-bottom: 25px;
+}
+
+.contact-section .text {
+	font-weight: 400;
+	font-size: 20px;
+	text-align: center;
+	margin-bottom: 25px;
+}
+
+.contact-content {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 40px;
+	margin-top: 20px;
+}
+
+.contactpete {
+	flex: 0.75;
+	display: flex;
+	justify-content: right;
+	margin:  0 0 100px 75px;
+}
+
+.contactpete img {
+	max-width: 100%;
+	height: auto;
+}
+
+#contact-form {
+	display: flex;
+	flex-direction: column;
+	max-width: 500px;
+	width: 100%;
+	padding: 20px;
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#contact-form label {
+	margin-top: 10px;
+	text-align: left;
+	font-weight: bold;
+}
+
+#contact-form input,
+#contact-form textarea {
+	width: 100%;
+	padding: 10px;
+	margin-top: 5px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 16px;
+	resize: none;
+}
+
+#contact-form button {
+	margin-top: 20px;
+	padding: 10px;
+	background-color: var(--link-color);
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+#contact-form button:hover {
+	background-color: var(--text-color);
+	transition: .1s;
+}
+
+#confirmation-message {
+	margin-top: 20px;
+	font-size: 16px;
 }
 
 /* Extra Small Devices */
