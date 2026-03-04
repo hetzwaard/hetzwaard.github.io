@@ -200,7 +200,14 @@ make -f Makefile.web serve</code></pre>
 		const statusNode = document.getElementById("status");
 		const canvas = document.getElementById("gamecanvas");
 		const mapArg = "/maps/default.cub";
-
+		window.addEventListener("keydown", (event) => {
+			const blocked = ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+			const tag = event.target && event.target.tagName;
+			if (tag === "INPUT" || tag === "TEXTAREA")
+				return;
+			if (blocked.includes(event.code))
+				event.preventDefault();
+		}, { passive: false });
 		window.Module = {
 			arguments: [mapArg],
 			canvas: canvas,
