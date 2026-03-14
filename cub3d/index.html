@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<script>if(location.pathname==='/cub3d')location.replace(location.href+'/');</script>
+	<link rel="icon" type="image/x-icon" href="../images/devilpete.png">
+	<title>cub3D</title>
+	<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--bg:           #0e0d0b;
+			--bg-panel:     #141210;
+			--bg-panel2:    #111009;
+			--stone:        #a89880;
+			--stone-dim:    #5a5040;
+			--stone-border: rgba(168, 152, 128, 0.18);
+			--amber:        #d4924a;
+			--amber-glow:   rgba(212, 146, 74, 0.25);
+			--text:         #cfc4b4;
+			--text-dim:     #7a6e5e;
+			--border:       #1e1c18;
+		}
+
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+		html { color-scheme: dark; scroll-behavior: smooth; }
+
+		body {
+			font-family: 'Chakra Petch', sans-serif;
+			background-color: var(--bg);
+			background-image:
+				radial-gradient(ellipse at 50% 0%, rgba(212, 146, 74, 0.07) 0%, transparent 60%);
+			color: var(--text);
+			min-height: 100vh;
+		}
+
+		a { color: var(--stone); text-decoration: none; }
+
+		/* ── Animations ── */
+		@keyframes fadeInUp {
+			from { opacity: 0; transform: translateY(18px); }
+			to   { opacity: 1; transform: translateY(0); }
+		}
+
+		@keyframes fadeIn {
+			from { opacity: 0; }
+			to   { opacity: 1; }
+		}
+
+		@keyframes blink {
+			0%, 100% { opacity: 1; }
+			50%       { opacity: 0; }
+		}
+
+		@keyframes torchFlicker {
+			0%, 100% { opacity: 1; }
+			25%       { opacity: 0.85; }
+			50%       { opacity: 0.95; }
+			75%       { opacity: 0.78; }
+		}
+
+		/* ── Nav ── */
+		nav {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 20px 44px;
+			border-bottom: 1px solid var(--stone-border);
+			animation: fadeIn 0.5s ease both;
+		}
+
+		.back-link {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 0.8rem;
+			font-weight: 600;
+			color: var(--text-dim);
+			transition: color 0.2s;
+		}
+		.back-link:hover { color: var(--stone); }
+
+		.nav-logo {
+			font-family: 'IM Fell English', serif;
+			font-size: 1.1rem;
+			color: var(--stone);
+			letter-spacing: 2px;
+		}
+
+		.nav-tags {
+			display: flex;
+			gap: 8px;
+		}
+
+		.tag {
+			font-size: 0.6rem;
+			font-weight: 700;
+			letter-spacing: 1px;
+			padding: 3px 9px;
+			border-radius: 4px;
+			border: 1px solid var(--stone-border);
+			color: var(--text-dim);
+			background: var(--bg-panel);
+		}
+
+		/* ── Main ── */
+		main {
+			max-width: 1100px;
+			margin: 0 auto;
+			padding: 0 32px 80px;
+		}
+
+		/* ── Hero ── */
+		.hero {
+			text-align: center;
+			padding: 60px 0 48px;
+			animation: fadeInUp 0.6s ease 0.05s both;
+		}
+
+		.hero-title {
+			font-family: 'IM Fell English', serif;
+			font-size: clamp(2rem, 5vw, 3.6rem);
+			color: var(--stone);
+			letter-spacing: 6px;
+			text-shadow: 0 2px 28px var(--amber-glow);
+		}
+
+		.torch {
+			display: inline-block;
+			animation: torchFlicker 3s ease-in-out infinite;
+		}
+
+		.hero-sub {
+			margin-top: 14px;
+			font-size: 0.75rem;
+			font-weight: 600;
+			letter-spacing: 4px;
+			color: var(--text-dim);
+			text-transform: uppercase;
+		}
+
+		.hero-desc {
+			margin-top: 16px;
+			max-width: 480px;
+			margin-left: auto;
+			margin-right: auto;
+			font-size: 0.88rem;
+			color: var(--text-dim);
+			line-height: 1.9;
+		}
+
+		/* ── Controls ── */
+		.controls-bar {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 16px 24px;
+			padding: 22px 28px;
+			background: var(--bg-panel);
+			border: 1px solid var(--stone-border);
+			border-radius: 10px;
+			margin-bottom: 24px;
+			animation: fadeInUp 0.6s ease 0.15s both;
+		}
+
+		.control-item {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 7px;
+		}
+
+		.key {
+			display: inline-block;
+			background: var(--bg-panel2);
+			border: 1px solid var(--stone-border);
+			border-bottom: 3px solid var(--stone-border);
+			border-radius: 5px;
+			padding: 5px 11px;
+			font-family: 'Chakra Petch', monospace;
+			font-size: 0.68rem;
+			font-weight: 700;
+			color: var(--stone);
+			white-space: nowrap;
+			transition: transform 0.1s ease, border-bottom-width 0.1s ease;
+			cursor: default;
+		}
+		.key:hover {
+			transform: translateY(2px);
+			border-bottom-width: 1px;
+		}
+
+		.ctrl-label {
+			font-size: 0.6rem;
+			font-weight: 600;
+			color: var(--text-dim);
+			letter-spacing: 0.5px;
+		}
+
+		/* ── Canvas ── */
+		.canvas-section { animation: fadeInUp 0.6s ease 0.25s both; }
+
+		.status-bar {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			margin-bottom: 10px;
+			font-size: 0.75rem;
+			font-weight: 600;
+			letter-spacing: 1px;
+			color: var(--text-dim);
+		}
+		.cursor { animation: blink 1.2s step-end infinite; color: var(--amber); }
+
+		canvas {
+			width: 100%;
+			height: auto;
+			display: block;
+			border: 1px solid var(--stone-border);
+			border-radius: 8px;
+			background: #000;
+			box-shadow: 0 4px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(168,152,128,0.06);
+		}
+
+		/* ── Dev Notes ── */
+		.readme {
+			margin-top: 52px;
+			animation: fadeInUp 0.6s ease 0.35s both;
+		}
+
+		.section-title {
+			font-size: 0.65rem;
+			font-weight: 700;
+			letter-spacing: 3px;
+			color: var(--text-dim);
+			text-transform: uppercase;
+			margin-bottom: 20px;
+		}
+
+		.details-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+			gap: 10px;
+			align-items: start;
+		}
+
+		details {
+			background: var(--bg-panel);
+			border: 1px solid var(--border);
+			border-radius: 8px;
+			transition: border-color 0.2s;
+		}
+		details[open],
+		details:hover { border-color: var(--stone-border); }
+
+		summary {
+			cursor: pointer;
+			padding: 14px 16px;
+			font-size: 0.83rem;
+			font-weight: 600;
+			color: var(--text);
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			list-style: none;
+			user-select: none;
+		}
+		summary::before {
+			content: '▶';
+			font-size: 0.5rem;
+			color: var(--stone-dim);
+			transition: transform 0.2s;
+			flex-shrink: 0;
+		}
+		details[open] summary::before { transform: rotate(90deg); }
+		summary::-webkit-details-marker { display: none; }
+
+		.details-body {
+			padding: 0 16px 16px;
+			font-size: 0.82rem;
+			line-height: 1.75;
+			color: var(--text-dim);
+		}
+		.details-body ol,
+		.details-body ul { padding-left: 20px; }
+		.details-body li  { margin-bottom: 6px; }
+
+		.details-body code {
+			font-family: 'Chakra Petch', monospace;
+			font-size: 0.8rem;
+			background: #0a0908;
+			color: var(--stone);
+			padding: 1px 6px;
+			border-radius: 4px;
+		}
+
+		pre {
+			margin-top: 12px;
+			padding: 12px 14px;
+			background: #0a0908;
+			border: 1px solid var(--border);
+			border-left: 2px solid var(--stone-dim);
+			border-radius: 0 6px 6px 0;
+			overflow-x: auto;
+			font-family: 'Chakra Petch', monospace;
+			font-size: 0.78rem;
+			color: var(--text-dim);
+			line-height: 1.6;
+		}
+		pre code { background: none; padding: 0; color: inherit; }
+
+		/* ── Mobile notice ── */
+		.mobile-notice { display: none; }
+
+		@media (max-width: 960px) {
+			.controls-bar { display: none; }
+			.canvas-section { display: none; }
+			.mobile-notice {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 16px;
+				padding: 48px 24px;
+				background: var(--bg-panel);
+				border: 1px solid var(--stone-border);
+				border-radius: 10px;
+				text-align: center;
+				margin-bottom: 48px;
+			}
+			.mobile-notice-icon {
+				font-size: 2.5rem;
+			}
+			.mobile-notice h3 {
+				font-family: 'IM Fell English', serif;
+				font-size: 1.4rem;
+				color: var(--stone);
+				letter-spacing: 1px;
+			}
+			.mobile-notice p {
+				font-size: 0.85rem;
+				color: var(--text-dim);
+				line-height: 1.7;
+				max-width: 320px;
+			}
+		}
+
+		/* ── Responsive ── */
+		@media (max-width: 640px) {
+			nav   { padding: 14px 18px; }
+			.nav-logo { display: none; }
+			main  { padding: 0 16px 56px; }
+			.hero { padding: 40px 0 36px; }
+			.details-grid { grid-template-columns: 1fr; }
+		}
+	</style>
+</head>
+<body>
+
+	<nav>
+		<a href="/" class="back-link">
+			<span>←</span>
+			<span>mahmutkilic.nl</span>
+		</a>
+	</nav>
+
+	<main>
+
+		<section class="hero">
+			<h1 class="hero-title">cub3D</h1>
+			<p class="hero-desc">A raycasting engine built in C — ported to the browser via Emscripten.</p>
+		</section>
+
+		<div class="mobile-notice">
+			<div class="mobile-notice-icon">🖥</div>
+			<h3>desktop only</h3>
+			<p>the game runs on WebAssembly and needs a keyboard + mouse.<br>open this on a desktop to play.</p>
+		</div>
+
+		<div class="controls-bar">
+			<div class="control-item"><span class="key">W A S D</span><span class="ctrl-label">Move</span></div>
+			<div class="control-item"><span class="key">Mouse / ← →</span><span class="ctrl-label">Look</span></div>
+			<div class="control-item"><span class="key">E</span><span class="ctrl-label">Doors</span></div>
+			<div class="control-item"><span class="key">Space</span><span class="ctrl-label">Jump</span></div>
+			<div class="control-item"><span class="key">Shift</span><span class="ctrl-label">Run</span></div>
+			<div class="control-item"><span class="key">M</span><span class="ctrl-label">Map</span></div>
+			<div class="control-item"><span class="key">Esc</span><span class="ctrl-label">Exit</span></div>
+		</div>
+
+		<div class="canvas-section">
+			<div class="status-bar">
+				<span id="statusText">Loading...</span>
+				<span class="cursor">█</span>
+			</div>
+			<canvas id="gamecanvas" width="1280" height="720"></canvas>
+		</div>
+
+		<section class="readme">
+			<p class="section-title">dev notes</p>
+			<div class="details-grid">
+
+				<details>
+					<summary>Ray Casting Pipeline (C)</summary>
+					<div class="details-body">
+						<ol>
+							<li>For each screen column, build a camera ray from player direction + camera plane.</li>
+							<li>Run DDA grid stepping until the ray hits a wall tile.</li>
+							<li>Compute perpendicular wall distance to avoid fish-eye distortion.</li>
+							<li>Project wall stripe height on screen and sample texture coordinates.</li>
+							<li>Draw floor/ceiling and apply distance-based shading.</li>
+						</ol>
+						<pre><code>for (int x = 0; x < render_w; ++x) {
+    ray_setup(&ray, player, camera, x);
+    dda_cast(&ray, map);
+    wall_project(&ray, render_h);
+    wall_draw_stripe(&ray, x);
+    floor_draw_column(&ray, x);
+}</code></pre>
+						<p style="margin-top:10px;">Core files: <code>fn_game_ray.c</code>, <code>fn_game_wall_loop.c</code>, <code>fn_game_wall_draw.c</code>, <code>fn_game_floor_draw.c</code>.</p>
+					</div>
+				</details>
+
+				<details>
+					<summary>WebAssembly Build Strategy</summary>
+					<div class="details-body">
+						<ul>
+							<li>Built with <code>emcc</code> and MLX42 via GLFW-on-web path.</li>
+							<li>Graphics flags: <code>USE_GLFW=3</code>, <code>USE_WEBGL2=1</code>, <code>FULL_ES3=1</code>.</li>
+							<li>Runtime flags: <code>NO_EXIT_RUNTIME=1</code>, <code>ALLOW_MEMORY_GROWTH</code>.</li>
+							<li>Stability: raised stack to <code>STACK_SIZE=8388608</code>.</li>
+							<li>Assets/maps bundled with <code>--preload-file</code>.</li>
+						</ul>
+					</div>
+				</details>
+
+				<details>
+					<summary>Runtime Bridge: Native vs Browser</summary>
+					<div class="details-body">
+						<ul>
+							<li>Desktop uses blocking <code>mlx_loop</code>.</li>
+							<li>Browser uses <code>emscripten_set_main_loop_arg</code> to hook into browser frame scheduling.</li>
+							<li>The same C game loop logic is reused through MLX loop hooks.</li>
+						</ul>
+						<pre><code>emscripten_set_main_loop_arg(
+    (em_arg_callback_func)mlx_loop,
+    g->mlx, 0, 1
+);</code></pre>
+					</div>
+				</details>
+
+				<details>
+					<summary>Input Adaptation For Web</summary>
+					<div class="details-body">
+						<ul>
+							<li>Native path recenters cursor each frame and reads center delta.</li>
+							<li>Web path uses relative-like delta from previous mouse sample.</li>
+							<li>Spike filtering drops abnormal jumps; tiny deltas are ignored.</li>
+							<li>Sensitivity is slightly scaled for browser control stability.</li>
+						</ul>
+					</div>
+				</details>
+
+				<details>
+					<summary>Bonus Systems Active In This Build</summary>
+					<div class="details-body">
+						<ul>
+							<li>Bonus mode always enabled for web build.</li>
+							<li>Map fixed to <code>/maps/default.cub</code>.</li>
+							<li>Keys, doors, minimap, sprites, lava, and checkpoints active.</li>
+							<li>On key pickup, nearest checkpoint selected for lava respawn.</li>
+							<li>Respawn keeps last look direction and pitch for continuity.</li>
+						</ul>
+					</div>
+				</details>
+
+				<details>
+					<summary>Local Build Quick Notes</summary>
+					<div class="details-body">
+						<pre><code>source ~/emsdk/emsdk_env.sh
+make -f Makefile.web
+make -f Makefile.web serve</code></pre>
+						<p style="margin-top:10px;">If <code>emcmake</code> or <code>emcc</code> is missing, emsdk environment is not loaded in the current shell.</p>
+					</div>
+				</details>
+
+			</div>
+		</section>
+
+	</main>
+
+	<script src="/cub3d/coi-serviceworker.js"></script>
+	<script>
+		const statusText = document.getElementById('statusText');
+		const canvas     = document.getElementById('gamecanvas');
+		const mapArg     = '/maps/default.cub';
+
+		window.addEventListener('keydown', (event) => {
+			const blocked = ['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+			const tag = event.target && event.target.tagName;
+			if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+			if (blocked.includes(event.code)) event.preventDefault();
+		}, { passive: false });
+
+		window.Module = {
+			arguments: [mapArg],
+			canvas: canvas,
+			preRun: [() => {
+				try {
+					if (typeof FS !== 'undefined') FS.chdir('/');
+				} catch (error) {
+					console.error('Failed to set CWD:', error);
+				}
+			}],
+			print:    (text) => console.log(text),
+			printErr: (text) => {
+				console.error(text);
+				statusText.textContent = String(text);
+			},
+			onAbort: (why) => {
+				statusText.textContent = 'Runtime aborted: ' + String(why);
+			},
+			onRuntimeInitialized: () => {
+				statusText.textContent = 'Loaded — click canvas to capture input.';
+			}
+		};
+
+		canvas.addEventListener('webglcontextlost', (event) => {
+			event.preventDefault();
+			statusText.textContent = 'WebGL context lost. Reload the page.';
+		});
+	</script>
+	<script src="/cub3d/cub3d.js"></script>
+</body>
+</html>

@@ -6,69 +6,193 @@
 	<link rel="icon" type="image/x-icon" href="/images/devilpete.png">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Pixelify+Sans:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Press+Start+2P&family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Chakra+Petch:wght@300;400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="css/style.css">
-	<title>mahmutkilic.nl - Mahmut Kilic</title>
+	<title>mahmutkilic.nl — Mahmut Kilic</title>
 </head>
 <body>
-	<!-- Navbar -->
+
 	<nav>
-		<div class="left">
-			<a href="/">mahmutkilic.nl</a>
-		</div>
+		<a href="/" class="logo">mahmutkilic</a>
+
 		<div class="music-player">
 			<audio id="audio" src="audio/minute-waltz.mp3"></audio>
 			<button id="playPauseBtn">
-				 <i class="fa-solid fa-play"></i>
+				<i class="fa-solid fa-play"></i>
 			</button>
-			<input type="range" id="progressBar" value="0">
-			<div class="volume-control">
-				 <span id="volumeIcon"><i class="fa-solid fa-volume-up"></i></span>
-				 <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
+			<div class="player-center">
+				<input type="range" id="progressBar" value="0">
 			</div>
-	  </div>
-		<div class="right">
-			<a href="https://github.com/hetzwaard" target="_blank" rel="noopener no-referrer">
+			<div class="volume-control">
+				<span id="volumeIcon"><i class="fa-solid fa-volume-up"></i></span>
+				<input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5">
+			</div>
+		</div>
+
+		<div class="nav-links">
+			<a href="https://github.com/hetzwaard" target="_blank" rel="noopener noreferrer">
 				<i class="fa-brands fa-github"></i>
 				<span>github</span>
 			</a>
-			<a href="https://linkedin.com/in/mahmutsedatkilic" target="_blank" rel="noopener no-referrer">
+			<a href="https://linkedin.com/in/mahmutsedatkilic" target="_blank" rel="noopener noreferrer">
 				<i class="fa-brands fa-linkedin"></i>
 				<span>linkedin</span>
 			</a>
-			<a href="mailto:me@mahmutkilic.nl">
+			<a href="mailto:me@mahmutkilic.nl" class="nav-cta">
 				<i class="fa-solid fa-envelope"></i>
 				<span>email</span>
 			</a>
 		</div>
 	</nav>
-	<script src="js/script.js"></script>
+
 	<main>
-		<!-- Hero Section -->
-		<section class="hero-section">
-			<div class="text">
-				<h2>hey there, I am mahmut 🐧</h2>
-				<p>a software engineer who loves building things that solve real problems. <br>
-					my technical background includes C/C++, Linux, concurrency, and system-level programming. <br>
-					enjoying deep debugging, improving quality, and working on complex engineering challenges. <br>
-				</p>
-				<div class="links">
-					<a href="http://github.com/hetzwaard/" target="_blank">
-						<i class="fa-solid fa-code"></i>
-						<span>projects</span>
-					</a>
-					<a href="mailto:me@mahmutkilic.nl">
-						<i class="fa-solid fa-pen-to-square"></i>
-						<span>contact</span>
-					</a>
+
+		<!-- Hero -->
+		<section class="hero">
+			<div class="hero-text">
+				<div class="hero-badge">
+					<span class="dot"></span>
+					currently studying<a href="https://codam.nl" target="_blank">@codam-coding-college</a>
+				</div>
+				<h1>hey there,<br>I'm mahmut 🐧</h1>
+				<p>software engineer who builds softwares, web apps.. <br> and whatever else seems interesting... <br>currently going deep on systems programming at Codam</p>
+				<div class="hero-cta">
+					<a href="#projects" class="btn-primary">see my work</a>
+					<a href="#contact" class="btn-outline">get in touch</a>
 				</div>
 			</div>
-			<div class="walkingpete" style="position: relative; display: block;" oncontextmenu="return false;">
-				<img src="images/walkingpete.gif" alt="workingpete">
-				<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent;"></div>
+			<div class="hero-image" oncontextmenu="return false;">
+				<img src="images/walkingpete.gif" alt="walking pete">
+				<div style="position:absolute;inset:0;background:transparent;"></div>
 			</div>
 		</section>
+
+		<!-- Skills -->
+		<section class="section">
+			<p class="eyebrow">// skills</p>
+			<div class="skills-grid">
+				<div class="skill-card">
+					<h4>languages</h4>
+					<div class="tags">
+						<span>C</span>
+						<span>C++</span>
+						<span>Python</span>
+						<span>Bash</span>
+					</div>
+				</div>
+				<div class="skill-card">
+					<h4>systems</h4>
+					<div class="tags">
+						<span>Threads</span>
+						<span>Mutexes</span>
+						<span>POSIX</span>
+						<span>Signals</span>
+						<span>Processes</span>
+					</div>
+				</div>
+				<div class="skill-card">
+					<h4>tools & infra</h4>
+					<div class="tags">
+						<span>Git</span>
+						<span>Docker</span>
+						<span>Linux</span>
+						<span>AWS</span>
+						<span>WASM</span>
+					</div>
+				</div>
+				<div class="skill-card">
+					<h4>web</h4>
+					<div class="tags">
+						<span>HTML5</span>
+						<span>CSS3</span>
+						<span>JavaScript</span>
+						<span>Node.js</span>
+						<span>WordPress</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Projects -->
+		<section class="section" id="projects">
+			<p class="eyebrow">// projects</p>
+
+			<div class="project-card">
+				<div class="pc-content">
+					<div class="pc-tags">
+						<span>C</span>
+						<span>MLX42</span>
+						<span>WebAssembly</span>
+					</div>
+					<h2 class="pc-title">cub3D</h2>
+					<p class="pc-desc">a full raycasting engine written in C, compiled to WebAssembly via Emscripten and running right in the browser!</p>
+					<div class="pc-actions">
+						<a href="/cub3d" class="btn-cyan">
+							<i class="fa-solid fa-play"></i> play it
+						</a>
+						<a href="https://github.com/hetzwaard/cub3d/" target="_blank" rel="noopener noreferrer" class="btn-ghost">
+							<i class="fa-brands fa-github"></i> source
+						</a>
+					</div>
+				</div>
+				<div class="pc-visual">
+					<div class="crt">
+						<div class="crt-lines"></div>
+						<div class="crt-vignette"></div>
+						<img src="images/workingpete.gif" alt="pete working" class="crt-pete" oncontextmenu="return false;">
+						<div style="position:absolute;inset:0;background:transparent;"></div>
+						<span class="crt-label">C · WASM</span>
+					</div>
+				</div>
+			</div>
+
+			<a href="https://github.com/hetzwaard" target="_blank" rel="noopener noreferrer" class="more-link">
+				more projects on github <i class="fa-solid fa-arrow-right"></i>
+			</a>
+		</section>
+
+		<!-- Contact -->
+		<section class="section" id="contact">
+			<p class="eyebrow">// contact</p>
+			<div class="contact-card">
+				<div class="contact-text">
+					<h2 class="contact-heading">let's talk :)</h2>
+					<p class="contact-desc">got a project? a question? my inbox is open!</p>
+					<div class="contact-links">
+						<a href="mailto:me@mahmutkilic.nl" class="contact-link">
+							<span class="contact-link-icon">✉</span>
+							<span>me@mahmutkilic.nl</span>
+						</a>
+						<a href="https://github.com/hetzwaard" target="_blank" rel="noopener noreferrer" class="contact-link">
+							<span class="contact-link-icon">⌥</span>
+							<span>github.com/hetzwaard</span>
+						</a>
+					</div>
+				</div>
+				<div class="contact-pete" oncontextmenu="return false;">
+					<img src="images/contactpete.gif" alt="contact pete">
+					<div style="position:absolute;inset:0;background:transparent;"></div>
+				</div>
+			</div>
+		</section>
+
 	</main>
+
+	<footer>
+		<p>mahmut kilic · 2026</p>
+	</footer>
+
+	<script src="js/script.js"></script>
+	<script>
+		const nav = document.querySelector('nav');
+		window.addEventListener('scroll', () => {
+			nav.classList.toggle('scrolled', window.scrollY > 0);
+		}, { passive: true });
+
+		if (window.innerWidth <= 960) {
+			document.querySelector('.btn-primary').href = 'https://github.com/hetzwaard';
+		}
+	</script>
 </body>
 </html>
